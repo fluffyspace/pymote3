@@ -2,7 +2,6 @@ from pymote.message import Message
 from pymote.logger import logger
 from inspect import getmembers
 
-
 class AlgorithmMeta(type):
     """ Metaclass for required and default params extension and update. """
 

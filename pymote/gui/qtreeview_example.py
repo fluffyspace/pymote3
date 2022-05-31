@@ -1,6 +1,6 @@
-from PySide.QtGui import QApplication, QDialog, QVBoxLayout, QTreeView, \
+from PySide6.QtGui import QApplication, QDialog, QVBoxLayout, QTreeView, \
                          QLabel, QFrame, QHBoxLayout, QPushButton
-from PySide.QtCore import QAbstractItemModel, QModelIndex, QObject, SIGNAL, \
+from PySide6.QtCore import QAbstractItemModel, QModelIndex, QObject, SIGNAL, \
                           Qt, QVariant  # @UnresolvedImport
 
 HORIZONTAL_HEADERS = ("Surname", "Given Name")
