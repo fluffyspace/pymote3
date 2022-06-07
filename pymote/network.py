@@ -56,9 +56,9 @@ class Network(Graph):
         assert(isinstance(H, Network))
         return H
 
-    def nodes(self, data=False):
+    #def nodes(self, data=False):
         """ Override, sort nodes by id, important for message ordering."""
-        return list(sorted(self.nodes_iter(data=data), key=lambda k: k.id))
+    #    return list(sorted(Graph.nodes(self), key=lambda k: k.id))
 
     @property
     def algorithms(self):
@@ -145,7 +145,7 @@ class Network(Graph):
             self.pos[node] = array(pos)
             self.ori[node] = ori
             self.labels[node] = str(node.id)
-            logger.debug('Node %d is placed on position %s.' % (node.id, pos))
+            print('Node %d is placed on position %s.' % (node.id, pos))
             self.recalculate_edges([node])
         else:
             logger.error('Given position is not free space.')
@@ -233,8 +233,8 @@ class Network(Graph):
             pos = self.pos
             net = self
         labels = labels or net.labels
-        nx.draw_networkx_edges(net, pos, alpha=0.6, edgelist=edgelist)
-        nx.draw_networkx_nodes(net, pos, node_size=node_size,
+        nx.draw_networkx_edges(G=net, pos=pos, alpha=0.6, edgelist=edgelist)
+        nx.draw_networkx_nodes(G=net, pos=pos, node_size=node_size,
                                node_color=nodeColor, cmap='YlOrRd')
         if (show_labels):
             label_pos = {}
