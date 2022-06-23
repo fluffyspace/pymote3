@@ -11,11 +11,12 @@ class Environment(object):
     def __new__(self, **kwargs):
         """ return instance of default Environment """
         for cls in self.__subclasses__():
+            print(cls.__name__)
             if (cls.__name__ == settings.ENVIRONMENT):
                 return object.__new__(cls, **kwargs)
         # if self is not Environment class (as in pickle.load_newobj) return
         # instance of self
-        return object.__new__(self, **kwargs)
+        return object.__new__(self)
 
     def is_space(self, xy):
         raise NotImplementedError

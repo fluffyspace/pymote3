@@ -16,7 +16,7 @@ class ChannelType(object):
                 return objekt
         # if self is not ChannelType class (as in pickle.load_newobj) return
         # instance of self
-        return object.__new__(self, environment, **kwargs)
+        return object.__new__(self)
 
     def in_comm_range(self, network, node1, node2):
         raise NotImplementedError
