@@ -53,6 +53,9 @@ def read_pickle(path, not_found_raises=True):
         if not_found_raises or e.errno!=errno.ENOENT:
             raise
         return None
+    except Exception as e:
+        fh.close()
+        raise
 
 read_npickle = read_pickle
 

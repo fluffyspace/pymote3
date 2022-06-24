@@ -1,4 +1,4 @@
-from PySide.QtCore import QThread, SIGNAL
+from PySide6.QtCore import QThread, SIGNAL
 import logging
 from pymote.network import Network
 from pymote.algorithm import NetworkAlgorithm

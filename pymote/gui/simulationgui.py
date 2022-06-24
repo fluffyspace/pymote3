@@ -2,8 +2,8 @@ from pymote import *  # @UnusedWildImport
 import sys
 import os  # @Reimport
 import numpy
-from PySide.QtGui import QMainWindow, QMenu, QCursor, QFileDialog, QMessageBox
-from PySide.QtCore import SIGNAL, QRect, QSize, QEvent
+from PySide6.QtGui import QMainWindow, QMenu, QCursor, QFileDialog, QMessageBox
+from PySide6.QtCore import SIGNAL, QRect, QSize, QEvent
 from matplotlib.figure import Figure
 from matplotlib.patches import Circle
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg \
