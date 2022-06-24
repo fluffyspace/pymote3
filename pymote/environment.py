@@ -1,6 +1,6 @@
 from pymote.conf import settings
 import png
-
+from itertools import imap
 from numpy import vstack, uint8, ones
 from numpy.core.numeric import sign, sqrt, Inf
 
@@ -11,12 +11,11 @@ class Environment(object):
     def __new__(self, **kwargs):
         """ return instance of default Environment """
         for cls in self.__subclasses__():
-            print(cls.__name__)
             if (cls.__name__ == settings.ENVIRONMENT):
                 return object.__new__(cls, **kwargs)
         # if self is not Environment class (as in pickle.load_newobj) return
         # instance of self
-        return object.__new__(self)
+        return object.__new__(self, **kwargs)
 
     def is_space(self, xy):
         raise NotImplementedError
@@ -37,11 +36,11 @@ class Environment2D(Environment):
             try:
                 r = png.Reader(path)
                 planes = r.read()[3]['planes']
-                self.im = vstack(map(uint8, r.asDirect()[2]))[:, ::planes]
+                self.im = vstack(imap(uint8, r.asDirect()[2]))[:, ::planes]
                 self.im = self.im[::-1, :]  # flip-up-down
                 assert((r.height, r.width) == self.im.shape)
             except IOError:
-                print('Can\'t open %s creating new default environment.' % path)
+                print 'Can\'t open %s creating new default environment.' % path
 
                 self.im = uint8(ones((shape)) * 255)
         else:

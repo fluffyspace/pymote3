@@ -23,7 +23,7 @@ class DVHop(FloodingUpdate):
         if not self.dataKey in node.memory:
             node.memory[self.dataKey] = {}
         updated_data = {}
-        for landmark, landmark_data in list(message.data.items()):
+        for landmark, landmark_data in message.data.items():
             # skip if landmark in message data is current node
             if landmark == node:
                 continue
@@ -53,5 +53,5 @@ class DVHop(FloodingUpdate):
             if landmarks_count > 0:
                 node.memory[self.hopsizeKey] = \
                     sum([dist(lp[:2], pos)
-                         for lp in list(node.memory[self.dataKey].values())]) / \
-                    sum([lp[2] for lp in list(node.memory[self.dataKey].values())])
+                         for lp in node.memory[self.dataKey].values()]) / \
+                    sum([lp[2] for lp in node.memory[self.dataKey].values()])

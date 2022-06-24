@@ -45,16 +45,16 @@ class BaseStitcher(object):
         stitched = self._stitch(dst, src)
 
         # First remove incomplete stitches from stitched
-        for k, v in list(stitched.items()):
+        for k, v in stitched.items():
             if not all([vv is not None for vv in v]):
                 stitched.pop(k)
         # Then using stitched dictionary keys find out which subclusters are
         # not stitched and append them to dst.subclusters
-        src_stitched = [s[1] for s in list(stitched.keys())]
+        src_stitched = [s[1] for s in stitched.keys()]
         for src_sc_index in range(len(src)):
             if src_sc_index not in src_stitched:
                 new_subcluster = {}
-                for node, pos in list(src[src_sc_index].items()):
+                for node, pos in src[src_sc_index].items():
                     new_subcluster[node] = pos
                 dst.subclusters.append(new_subcluster)
 
@@ -95,7 +95,7 @@ class BaseStitcher(object):
 
             # merge subclusters: append src nodes in dst
             # TODO: apply flip ambiguity condition for new subcluster
-            for node in list(src[srcSubIndex].keys()):
+            for node in src[srcSubIndex].keys():
                 if not node in dst[dstSubIndex]:  # append only new
                     pos = src[srcSubIndex][node][:2]
                     try:
@@ -118,7 +118,7 @@ class BaseStitcher(object):
 
         for srcSubIndex in range(len(src)):
             R, s, t = self.stitch_subclusters(dst[0], src[srcSubIndex])
-            for node in list(src[srcSubIndex].keys()):
+            for node in src[srcSubIndex].keys():
                 src_pos = src[srcSubIndex][node][:2]
                 src[srcSubIndex][node] = self.transform(R, s, t, src_pos)
 

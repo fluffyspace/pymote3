@@ -113,7 +113,7 @@ class TestStitchers(unittest.TestCase):
         """ Return new cluster with nodes form main_cluster and with
             subclusters defined as in subcluster argument. """
 
-        positions = [{k: v for k, v in list(self.test_cluster.items())
+        positions = [{k: v for k, v in self.test_cluster.items()
                       if k in sub}
                      for sub in subclusters]
         return Positions(positions)
@@ -139,7 +139,7 @@ class TestStitchers(unittest.TestCase):
                 #TODO: make R with flip
                 pass
 
-            for node, pos in list(sub.items()):
+            for node, pos in sub.items():
                 sub[node] = concatenate((dot(dot(s, R), pos[:2])+t, [nan]))
 
 

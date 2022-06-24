@@ -8,7 +8,7 @@ if 'install' in sys.argv or 'develop' in sys.argv:
     try:
         import IPython
         ipythondir = IPython.utils.path.get_ipython_dir()  # @UndefinedVariable
-    except ImportError as AttributeError:  # @ReservedAssignment
+    except ImportError, AttributeError:  # @ReservedAssignment
         print("Pymote IPython configuration not installed. Install latest "
               "IPython and then copy the conf/ipython/profile_pymote/"
               "ipython_config.py manually to IPython config dir.")
@@ -18,8 +18,8 @@ if 'install' in sys.argv or 'develop' in sys.argv:
             os.makedirs(ipythondir)
         if not os.path.exists(profiledir):
             os.makedirs(profiledir)
-        print(("copying ipython_config.py and ipython_notebook_config.py "
-               "to "+profiledir))
+        print ("copying ipython_config.py and ipython_notebook_config.py "
+               "to "+profiledir)
         shutil.copy(os.path.join('pymote', 'conf', 'ipython',
                                  'ipython_config.py'), profiledir)
         shutil.copy(os.path.join('pymote', 'conf', 'ipython',
@@ -53,7 +53,7 @@ setup(
         'pypng',
         'ipython',
         'matplotlib',
-        'PySide6',
+        'PySide',
     ],
     long_description=open(os.path.join(os.path.dirname(__file__),
                                        'README.rst')).read(),

@@ -1,7 +1,7 @@
 __all__ = ['read_pickle', 'write_pickle']
 
 from pymote.logger import logger
-import pickle as pickle
+import cPickle as pickle
 import errno
 import sys
 import os
@@ -27,7 +27,7 @@ def write_pickle(obj, path, makedir=True):
     sys.setrecursionlimit(6000)
     try:
         os.makedirs(os.path.split(path)[0])
-    except OSError as e:
+    except OSError, e:
         if e.errno!=errno.EEXIST and e.filename!='':
             raise
     fh = _get_fh(str(path), mode='wb')
@@ -48,14 +48,11 @@ def read_pickle(path, not_found_raises=True):
         obj = pickle.load(fh)
         logger.info('instance of %s loaded: %s' % (str(obj.__class__), path))
         return obj
-    except IOError as e:
+    except IOError, e:
         # if error is some other than errno.ENOENT ='file not found raise
         if not_found_raises or e.errno!=errno.ENOENT:
             raise
         return None
-    except Exception as e:
-        fh.close()
-        raise
 
 read_npickle = read_pickle
 
@@ -67,9 +64,9 @@ read_npickle = read_pickle
 def _pickle_method(method):
     #print 'pickling',
     #print method
-    func_name = method.__func__.__name__
-    obj = method.__self__
-    cls = method.__self__.__class__
+    func_name = method.im_func.__name__
+    obj = method.im_self
+    cls = method.im_class
     return _unpickle_method, (func_name, obj, cls)
 
 
@@ -83,6 +80,6 @@ def _unpickle_method(func_name, obj, cls):
             break
     return func.__get__(obj, cls)
 
-import copyreg
+import copy_reg
 import types
-copyreg.pickle(types.MethodType, _pickle_method, _unpickle_method)
+copy_reg.pickle(types.MethodType, _pickle_method, _unpickle_method)

@@ -7,7 +7,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-from PySide6 import QtCore, QtGui
+from PySide import QtCore, QtGui
 
 class Ui_SimulationWindow(object):
     def setupUi(self, SimulationWindow):
@@ -341,4 +341,4 @@ class Ui_SimulationWindow(object):
         self.actionShowLocalizedSubclusters.setToolTip(QtGui.QApplication.translate("SimulationWindow", "Show localized subclusters based on memory field that has positions and subclusters items.", None, QtGui.QApplication.UnicodeUTF8))
         self.actionShowLocalizedSubclusters.setShortcut(QtGui.QApplication.translate("SimulationWindow", "Ctrl+L", None, QtGui.QApplication.UnicodeUTF8))
 
-from . import icons_rc
+import icons_rc

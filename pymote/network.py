@@ -3,14 +3,14 @@ from pymote.logger import logger
 from pymote.conf import settings
 from networkx import Graph, is_connected
 import networkx as nx
-from .environment import Environment
-from .channeltype import ChannelType
-from .node import Node
+from environment import Environment
+from channeltype import ChannelType
+from node import Node
 from numpy.random import rand
 from numpy.core.numeric import Inf, allclose
 from numpy import array, pi, sign, max, min
 from numpy.lib.function_base import average
-from .algorithm import Algorithm
+from algorithm import Algorithm
 from pymote.sensor import CompositeSensor
 from pymote.utils.helpers import pymote_equal_objects
 from copy import deepcopy
@@ -56,15 +56,9 @@ class Network(Graph):
         assert(isinstance(H, Network))
         return H
 
-    def nodes_list(self, data=False):
-        #Override, sort nodes by id, important for message ordering.
-        nodes = super().nodes(data)
-        #a = Graph(self).graph()
-        ret = list()
-        for node in nodes:
-            #print(node)
-            ret.append(node)
-        return list(iter(nodes))#list(sorted(nodes, key=lambda k: k.id))
+    def nodes(self, data=False):
+        """ Override, sort nodes by id, important for message ordering."""
+        return list(sorted(self.nodes_iter(data=data), key=lambda k: k.id))
 
     @property
     def algorithms(self):
@@ -151,7 +145,7 @@ class Network(Graph):
             self.pos[node] = array(pos)
             self.ori[node] = ori
             self.labels[node] = str(node.id)
-            print('Node %d is placed on position %s.' % (node.id, pos))
+            logger.debug('Node %d is placed on position %s.' % (node.id, pos))
             self.recalculate_edges([node])
         else:
             logger.error('Given position is not free space.')
@@ -166,7 +160,7 @@ class Network(Graph):
         return None
 
     def avg_degree(self):
-        return average(list(self.degree().values()))
+        return average(self.degree().values())
 
     def modify_avg_degree(self, value):
         """
@@ -231,16 +225,16 @@ class Network(Graph):
                    origin='lower')
         if positions:
             # truncate positions to [x, y], i.e. lose theta
-            for k, v in list(positions.items()):
+            for k, v in positions.items():
                 positions[k] = v[:2]
             pos = positions
-            net = self.subnetwork(list(pos.keys()))
+            net = self.subnetwork(pos.keys())
         else:
             pos = self.pos
             net = self
         labels = labels or net.labels
-        nx.draw_networkx_edges(G=net, pos=pos, alpha=0.6, edgelist=edgelist)
-        nx.draw_networkx_nodes(G=net, pos=pos, node_size=node_size,
+        nx.draw_networkx_edges(net, pos, alpha=0.6, edgelist=edgelist)
+        nx.draw_networkx_nodes(net, pos, node_size=node_size,
                                node_color=nodeColor, cmap='YlOrRd')
         if (show_labels):
             label_pos = {}
@@ -302,8 +296,8 @@ class Network(Graph):
                 # Node routing
                 try:
                     self.send(message.nexthop, message)
-                except PymoteMessageUndeliverable as e:
-                    print(e.message)
+                except PymoteMessageUndeliverable, e:
+                    print e.message
             elif (message.destination != None):
                 # Destination is neighbor
                 if (message.source in self.nodes() and
@@ -339,7 +333,7 @@ class Network(Graph):
 
     def get_size(self):
         """ Returns network width and height based on nodes positions. """
-        return max(list(self.pos.values()), axis=0) - min(list(self.pos.values()), axis=0)
+        return max(self.pos.values(), axis=0) - min(self.pos.values(), axis=0)
 
     def get_dic(self):
         """ Return all network data in form of dictionary. """
@@ -397,7 +391,7 @@ class Network(Graph):
         n_min = params.get('n_min', 0)
         n_max = params.get('n_max', Inf)
         assert(len(self)>=n_min and len(self)<=n_max)
-        for param, value in list(params.items()):
+        for param, value in params.items():
             if param=='connected':
                 assert(not value or is_connected(self))
             elif param=='degree':

@@ -25,20 +25,20 @@ class PTConstruction(NodeAlgorithm):
 
     def initializer(self):
         # set weights
-        for node in self.network.nodes_list():
+        for node in self.network.nodes():
             node.memory[self.weightKey] = dict()
         for u, v, data in self.network.edges(data=True):
             u.memory[self.weightKey][v] = data[self.weightKey]
             v.memory[self.weightKey][u] = data[self.weightKey]
 
         # set statuses and neighbors
-        for node in self.network.nodes_list():
+        for node in self.network.nodes():
             sensor_readings = node.compositeSensor.read()
             node.memory[self.neighborsKey] = sensor_readings['Neighbors']
             node.status = 'IDLE'
 
-        # ini_node = random.choice(self.network.nodes_list())
-        ini_node = self.network.nodes_list()[0]
+        # ini_node = random.choice(self.network.nodes())
+        ini_node = self.network.nodes()[0]
         ini_node.status = 'INITIATOR'
 
         # send Spontaneously

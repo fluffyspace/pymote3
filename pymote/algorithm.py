@@ -2,6 +2,7 @@ from pymote.message import Message
 from pymote.logger import logger
 from inspect import getmembers
 
+
 class AlgorithmMeta(type):
     """ Metaclass for required and default params extension and update. """
 
@@ -20,20 +21,20 @@ class AlgorithmMeta(type):
             dps.update(base_dps)
         rps.extend(dct.get('required_params', []))
         dps.update(dct.get('default_params', {}))
-        all_params = rps + list(dps.keys())
+        all_params = rps + dps.keys()
 
         assert len(rps)==len(set(rps)), \
             'Some required params %s defined in multiple classes.' % str(rps)
         assert len(all_params)==len(set(all_params)), \
             'Required params %s and default params %s should be unique.' % \
-            (str(rps), str(list(dps.keys())))
+            (str(rps), str(dps.keys()))
 
         dct['required_params'] = tuple(rps)
         dct['default_params'] = dps
         return super(AlgorithmMeta, cls).__new__(cls, clsname, bases, dct)
 
 
-class Algorithm(object, metaclass=AlgorithmMeta):
+class Algorithm(object):
     """
     Abstract base class for all algorithms.
 
@@ -74,6 +75,7 @@ class Algorithm(object, metaclass=AlgorithmMeta):
             subclasses
 
     """
+    __metaclass__ = AlgorithmMeta
 
     required_params = ()
     default_params = {}
@@ -84,15 +86,15 @@ class Algorithm(object, metaclass=AlgorithmMeta):
         logger.debug('Instance of %s class has been initialized.' % self.name)
 
         for required_param in self.required_params:
-            if required_param not in list(kwargs.keys()):
+            if required_param not in kwargs.keys():
                 raise PymoteAlgorithmException('Missing required param.')
 
         # set default params
-        for dp, val in list(self.default_params.items()):
+        for dp, val in self.default_params.items():
             self.__setattr__(dp, val)
 
         # override default params
-        for kw, arg in list(kwargs.items()):
+        for kw, arg in kwargs.items():
             self.__setattr__(kw, arg)
 
 

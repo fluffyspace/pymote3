@@ -1,6 +1,6 @@
-from PySide6.QtGui import QApplication, QDialog, QVBoxLayout, QTreeView, \
+from PySide.QtGui import QApplication, QDialog, QVBoxLayout, QTreeView, \
                          QLabel, QFrame, QHBoxLayout, QPushButton
-from PySide6.QtCore import QAbstractItemModel, QModelIndex, QObject, SIGNAL, \
+from PySide.QtCore import QAbstractItemModel, QModelIndex, QObject, SIGNAL, \
                           Qt, QVariant  # @UnresolvedImport
 
 HORIZONTAL_HEADERS = ("Surname", "Given Name")
@@ -184,7 +184,7 @@ class treeModel(QAbstractItemModel):
                         return result
 
         retarg = searchNode(self.parents[0])
-        print(retarg)
+        print retarg
         return retarg
 
     def find_GivenName(self, fname):
@@ -204,7 +204,7 @@ if __name__ == "__main__":
         '''
         when a row is clicked... show the name
         '''
-        print(tv.model().data(index, Qt.UserRole))
+        print tv.model().data(index, Qt.UserRole)
 
     def but_clicked():
         '''
@@ -212,7 +212,7 @@ if __name__ == "__main__":
         find the person with this name, and set the treeviews current item
         '''
         name = dialog.sender().text()
-        print("BUTTON CLICKED:", name)
+        print "BUTTON CLICKED:", name
         result, index = model.find_GivenName(name)
         if result:
             if index:

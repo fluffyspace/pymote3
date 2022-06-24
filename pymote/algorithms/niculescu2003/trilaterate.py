@@ -32,7 +32,7 @@ class Trilaterate(FloodingUpdate):
         MAX_ITER = 10
 
         # get landmarks with hopsize data
-        landmarks = list(node.memory[self.dataKey].keys())
+        landmarks = node.memory[self.dataKey].keys()
         # calculate estimated distances
         if len(landmarks) >= 3:
             landmark_distances = [node.memory[self.dataKey][lm][2] *

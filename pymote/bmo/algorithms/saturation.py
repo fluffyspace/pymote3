@@ -14,19 +14,19 @@ class Saturation(NodeAlgorithm):
         if self.treeNeighborsKey != '':
             self.neighborsKey = self.treeNeighborsKey
         else:
-            for node in self.network.nodes_list():
+            for node in self.network.nodes():
                 node.memory[self.neighborsKey] = node.compositeSensor.read()['Neighbors']
                 node.status = 'AVAILABLE'
 
-        for node in self.network.nodes_list():
+        for node in self.network.nodes():
             node.memory['parent'] = None
             node.memory['remainingNeighbors'] = []
             node.memory['temp'] = node.compositeSensor.read()['Temperature']
 
         ini_nodes = []
-        for i in range(len(self.network.nodes_list())):
+        for i in range(len(self.network.nodes())):
             if random.random() > 0.5:
-                ini_nodes.append(self.network.nodes_list()[i])
+                ini_nodes.append(self.network.nodes()[i])
 
         for n in ini_nodes:
             self.network.outbox.insert(0, Message(

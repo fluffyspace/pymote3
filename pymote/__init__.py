@@ -6,7 +6,7 @@ __version__ = release.version
 
 # For interactive sessions these import names with from pymote import *
 import os
-os.environ['QT_API'] = 'PySide6'
+os.environ['QT_API'] = 'pyside'
 from pymote.conf import settings
 from pymote.network import Network
 from pymote.networkgenerator import NetworkGenerator

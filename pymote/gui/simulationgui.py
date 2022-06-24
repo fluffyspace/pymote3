@@ -2,8 +2,8 @@ from pymote import *  # @UnusedWildImport
 import sys
 import os  # @Reimport
 import numpy
-from PySide6.QtGui import QMainWindow, QMenu, QCursor, QFileDialog, QMessageBox
-from PySide6.QtCore import SIGNAL, QRect, QSize, QEvent
+from PySide.QtGui import QMainWindow, QMenu, QCursor, QFileDialog, QMessageBox
+from PySide.QtCore import SIGNAL, QRect, QSize, QEvent
 from matplotlib.figure import Figure
 from matplotlib.patches import Circle
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg \
@@ -15,8 +15,8 @@ from datetime import datetime
 from matplotlib.collections import PatchCollection, LineCollection
 import networkx as nx
 from pymote.algorithm import NodeAlgorithm
-from .simulationui import Ui_SimulationWindow
-from .dictionarytreemodel import DictionaryTreeModel
+from simulationui import Ui_SimulationWindow
+from dictionarytreemodel import DictionaryTreeModel
 from pymote.utils.localization.helpers import align_clusters, get_rms
 from pymote.utils.memory.positions import Positions
 from copy import deepcopy
@@ -103,7 +103,7 @@ class SimulationGui(QMainWindow):
 
     def update_log(self, text):
         """ Add item to list widget """
-        print("Add: " + text)
+        print "Add: " + text
         self.ui.logListWidget.insertItem(0, text)
         # self.ui.logListWidget.sortItems()
 
@@ -176,7 +176,7 @@ class SimulationGui(QMainWindow):
                     if drawLegend:
                         proxy = []
                         labels = []
-                        for status, color in list(color_map.items()):
+                        for status, color in color_map.items():
                             proxy.append(Circle((0, 0), radius=8.0,
                                                 color=color, ec='k',
                                                 lw=1.0, ls='solid'))
@@ -187,7 +187,7 @@ class SimulationGui(QMainWindow):
                                         title='Statuses for %s:'
                                                 % algorithm.name)
                 for n in net.nodes():
-                    if n.status == '' or not n.status in list(color_map.keys()):
+                    if n.status == '' or not n.status in color_map.keys():
                         node_colors[n] = 'r'
                     else:
                         node_colors[n] = color_map[n.status]
@@ -216,7 +216,7 @@ class SimulationGui(QMainWindow):
             for msg in node.outbox:
                 # broadcast
                 if msg.destination is None:
-                    for neighbor in list(net.adj[node].keys()):
+                    for neighbor in net.adj[node].keys():
                         nbr_msg = msg.copy()
                         nbr_msg.destination = neighbor
                         c = MessageCircle(nbr_msg, net, 'out', 3.0, lw=0,
@@ -253,7 +253,7 @@ class SimulationGui(QMainWindow):
         try:
             self.node_collection.set_visible(self.ui.showNodes.isChecked())
             self.edge_collection.set_visible(self.ui.showEdges.isChecked())
-            for label in list(self.label_collection.values()):
+            for label in self.label_collection.values():
                 label.set_visible(self.ui.showLabels.isChecked())
             self.tree_collection.set_visible(self.ui.treeGroupBox.isChecked())
             self.ini_error_collection.set_visible(self.ui.propagationError\
@@ -265,7 +265,7 @@ class SimulationGui(QMainWindow):
             self.message_collection.set_visible(self.ui.showMessages\
                                                     .isChecked())
         except AttributeError:
-            print('Refresh visibility warning')
+            print 'Refresh visibility warning'
         self.canvas.draw()
 
     def draw_tree(self, treeKey, net=None):
@@ -329,16 +329,16 @@ class SimulationGui(QMainWindow):
 
     def on_actionRun_triggered(self):
         self.ui.logListWidget.clear()
-        print('running ...', end=' ')
+        print 'running ...',
         self.sim.stepping = True
         self.sim.run_all()
 
     def on_actionStep_triggered(self):
-        print('next step ...', end=' ')
+        print 'next step ...',
         self.sim.run(self.ui.stepSize.value())
 
     def on_actionReset_triggered(self):
-        print('reset ...', end=' ')
+        print 'reset ...',
         self.sim.reset()
         self.redraw()
 
@@ -364,7 +364,7 @@ class SimulationGui(QMainWindow):
             # rotate, translate and optionally scale
             # w.r.t. original positions (pos)
             align_clusters(Positions.create(self.net.pos), estimated, True)
-            net = self.net.subnetwork(list(estimatedsub.keys()), pos=estimatedsub)
+            net = self.net.subnetwork(estimatedsub.keys(), pos=estimatedsub)
 
             self.draw_network(net=net, drawMessages=False)
 
@@ -392,7 +392,7 @@ class SimulationGui(QMainWindow):
         if fname:
             try:
                 write_pickle(self.net, fname)
-            except Exception as e:
+            except Exception, e:
                 QMessageBox.critical(
                     self, "Error saving file", str(e),
                     QMessageBox.Ok, QMessageBox.NoButton)
@@ -411,11 +411,11 @@ class SimulationGui(QMainWindow):
             self, "Choose a file to open", start, filters, selectedFilter)[0]
         if fname:
             try:
-                print("open" + fname)
+                print "open" + fname
                 net = read_pickle(fname)
                 self.init_sim(net)
-            except Exception as e:
-                print("Error opening file %s" % str(e), end=' ')
+            except Exception, e:
+                print "Error opening file %s" % str(e),
                 QMessageBox.critical(
                     self, "Error opening file", str(e),
                     QMessageBox.Ok, QMessageBox.NoButton)

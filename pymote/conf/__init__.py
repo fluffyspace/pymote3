@@ -18,7 +18,6 @@ import re
 from pymote.conf import global_settings
 from warnings import warn
 from pymote.logger import logger
-import importlib
 
 ENVIRONMENT_VARIABLE = "PYMOTE_SETTINGS_MODULE"
 
@@ -112,7 +111,7 @@ class LazySettings(object):
             raise RuntimeError('Settings already configured or accessed no'
                                ' further configuration allowed.')
         holder = UserSettingsHolder(default_settings)
-        for name, value in list(options.items()):
+        for name, value in options.items():
             setattr(holder, name, value)
         self._wrapped = holder
 
@@ -175,7 +174,7 @@ class UserSettingsHolder(object):
         return getattr(self.default_settings, name)
 
     def __dir__(self):
-        return list(self.__dict__.keys()) + dir(self.default_settings)
+        return self.__dict__.keys() + dir(self.default_settings)
 
     # For Python < 2.6:
     __members__ = property(lambda self: self.__dir__())
@@ -188,7 +187,7 @@ def _resolve_name(name, package, level):
     if not hasattr(package, 'rindex'):
         raise ValueError("'package' not set to a string")
     dot = len(package)
-    for x in range(level, 1, -1):  # @UnusedVariable
+    for x in xrange(level, 1, -1):  # @UnusedVariable
         try:
             dot = package.rindex('.', 0, dot)
         except ValueError:
@@ -225,5 +224,5 @@ def import_module(name, package=None):
     except KeyError:
         pass
     else:
-        module = importlib.reload(module)
+        module = reload(module)
     return sys.modules[name]

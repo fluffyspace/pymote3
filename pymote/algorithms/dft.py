@@ -7,11 +7,11 @@ class DFT(NodeAlgorithm):
     default_params = {'neighborsKey': 'Neighbors'}
 
     def initializer(self):
-        for node in self.network.nodes_list():
+        for node in self.network.nodes():
             node.memory[self.neighborsKey] = node.compositeSensor.read()['Neighbors']
             node.status = 'IDLE'
             
-        ini_node = self.network.nodes_list()[0]
+        ini_node = self.network.nodes()[0]
         ini_node.status = 'INITIATOR'
         
         self.network.outbox.insert(0, Message(
