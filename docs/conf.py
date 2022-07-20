@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Pymote documentation build configuration file, created by
+# Pymote3 documentation build configuration file, created by
 # sphinx-quickstart on Wed Nov 07 19:26:40 2012.
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -61,8 +61,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'Pymote'
-copyright = '2011-2013, Damir Arbula'
+project = u'Pymote3'
+copyright = u'2011-2013, Damir Arbula'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -70,10 +70,10 @@ copyright = '2011-2013, Damir Arbula'
 #
 # The short X.Y version.
 try:
-    from pymote import __version__
+    from pymote3 import __version__
 except ImportError:
-    # avoid pymote requirements on rtd server
-    sys.path.append(os.path.abspath(os.path.join('..', 'pymote')))
+    # avoid pymote3 requirements on rtd server
+    sys.path.append(os.path.abspath(os.path.join('..', 'pymote3')))
     tmp = __import__('release', globals(), locals(), 'version', 0)
     sys.path.pop()
     __version__ = tmp.version
@@ -193,7 +193,7 @@ html_static_path = ['static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'Pymotedoc'
+htmlhelp_basename = 'Pymote3doc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -212,8 +212,8 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'Pymote.tex', 'Pymote Documentation',
-   'Damir Arbula', 'manual'),
+  ('index', 'Pymote3.tex', u'Pymote3 Documentation',
+   u'Damir Arbula', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -242,8 +242,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'pymote', 'Pymote Documentation',
-     ['Damir Arbula'], 1)
+    ('index', 'pymote3', u'Pymote3 Documentation',
+     [u'Damir Arbula'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -256,8 +256,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'Pymote', 'Pymote Documentation',
-   'Damir Arbula', 'Pymote', 'One line description of project.',
+  ('index', 'Pymote3', u'Pymote3 Documentation',
+   u'Damir Arbula', 'Pymote3', 'One line description of project.',
    'Miscellaneous'),
 ]
 

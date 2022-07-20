@@ -2,30 +2,30 @@ import os
 import sys
 from setuptools import setup, find_packages
 
-# transfer profile_pymote for ipython into IPYTHONDIR
+# transfer profile_pymote3 for ipython into IPYTHONDIR
 if 'install' in sys.argv or 'develop' in sys.argv:
     import shutil
     try:
         import IPython
         ipythondir = IPython.utils.path.get_ipython_dir()  # @UndefinedVariable
     except ImportError as AttributeError:  # @ReservedAssignment
-        print("Pymote IPython configuration not installed. Install latest "
-              "IPython and then copy the conf/ipython/profile_pymote/"
+        print("Pymote3 IPython configuration not installed. Install latest "
+              "IPython and then copy the conf/ipython/profile_pymote3/"
               "ipython_config.py manually to IPython config dir.")
     else:
-        profiledir = os.path.join(ipythondir, 'profile_pymote')
+        profiledir = os.path.join(ipythondir, 'profile_pymote3')
         if not os.path.exists(ipythondir):
             os.makedirs(ipythondir)
         if not os.path.exists(profiledir):
             os.makedirs(profiledir)
         print(("copying ipython_config.py and ipython_notebook_config.py "
                "to "+profiledir))
-        shutil.copy(os.path.join('pymote', 'conf', 'ipython',
+        shutil.copy(os.path.join('pymote3', 'conf', 'ipython',
                                  'ipython_config.py'), profiledir)
-        shutil.copy(os.path.join('pymote', 'conf', 'ipython',
+        shutil.copy(os.path.join('pymote3', 'conf', 'ipython',
                                  'ipython_notebook_config.py'), profiledir)
 
-sys.path.insert(0, 'pymote')
+sys.path.insert(0, 'pymote3')
 import release  # @UnresolvedImport
 sys.path.pop(0)
 
@@ -57,14 +57,14 @@ setup(
     ],
     long_description=open(os.path.join(os.path.dirname(__file__),
                                        'README.rst')).read(),
-
+    long_description_content_type='text/x-rst',
     entry_points={
-        'pymote.algorithms': [],
+        'pymote3.algorithms': [],
         'console_scripts': [
-            'ipymote = pymote.scripts.ipymote:start_ipymote',
+            'ipymote3 = pymote3.scripts.ipymote3:start_ipymote3',
         ],
         'gui_scripts': [
-            'pymote-simgui = pymote.gui.simulationgui:main',
+            'pymote3-simgui = pymote3.gui.simulationgui:main',
         ]
     },
     test_suite='nose.collector',
